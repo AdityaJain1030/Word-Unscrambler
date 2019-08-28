@@ -13,20 +13,74 @@ window.onload = () => {
 
 function loadJS() {
     submit.addEventListener('click', ()=> {
-        let allPerms = getAllPermutations(input.value)
+        toUnscramble = input.value
+        let allPerms = getAllPermutations(toUnscramble)
         let correctPerms = []
         for (i in allPerms) {
             if (typeof data[allPerms[i]] !== 'undefined') {
                 if(correctPerms.includes(allPerms[i]) == false) {
-                    console.log('hit')
-                    console.log(allPerms[i])
                     correctPerms.push(allPerms[i])
                 }
             }
         }
-        console.log(correctPerms)
+        let h = document.createElement('p')
+        let ul = document.createElement('ul')
+        let note = document.getElementById('note')
+
+        // if(typeof document.getElementById('h') == 'node') {
+        //     let h0 = document.getElementById('h')
+        //     let ul0 = document.getElementById('ul')
+
+        //     h0.remove();
+        // }    
+
+
+
+        h.id = 'h'
+        ul.id = 'ul'
+
+        if (correctPerms.length == 0) {
+            h.innerText = "There are no unscrambled versions to " + toUnscramble
+        }
+        else {
+            h.innerText = "Here are the unscrambled versions to " + toUnscramble + " :"
+        }
+
+        note.innerText = "Note: Refresh to try again."
+
+        for(i in correctPerms) {
+            let li = document.createElement('li')
+            li.innerText = correctPerms[i];
+            ul.appendChild(li)
+        }
+        document.body.appendChild(h)
+        document.body.appendChild(ul)
+
+        checkDict(correctPerms)
 
     })
+}
+
+function checkDict(arr) {
+    // for (i in arr) {
+    //     let url = 'https://wordsapiv1.p.rapidapi.com/words/' + arr[i] + '/definitions'
+    //     var settings = {
+    //         "async": true,
+    //         "crossDomain": true,
+    //         "url": "https://wordsapiv1.p.rapidapi.com/words/hello/definitions",
+    //         "method": "GET",
+    //         "headers": {
+    //             "x-rapidapi-host": "wordsapiv1.p.rapidapi.com",
+    //             "x-rapidapi-key": "c909bdc34emshc7b2b1c7b17d57dp1feddbjsn0a0e1f39edb4"
+    //         }
+    //     }
+        
+    //     $.ajax(settings).done(function (response) {
+    //         console.log(response);
+    //     });
+        
+    // }
+    console.log('n/a')
 }
 
 function documentSpawn() {
@@ -38,7 +92,9 @@ function documentSpawn() {
 
     input.type = 'text'
 
-    note.innerText = "Note: Please Don't Use Uppercase"
+    note.innerText = "Note: Please don't use uppercase"
+    note.id = 'note'
+
     submit.innerText = "Submit"
     title.innerText = "Word To Unscramble"
     document.body.appendChild(title)
